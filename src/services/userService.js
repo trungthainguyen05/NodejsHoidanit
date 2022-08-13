@@ -13,7 +13,6 @@ let handleUserLogin = (email, password) => {
                     attributes:['email','roleId','password'],
                     where: { email: email },
                     raw: true
-                    
                 });
 
                 if (user) {
@@ -33,7 +32,6 @@ let handleUserLogin = (email, password) => {
                     userData.errCode = 2;
                     userData.errMessage = "User is not found";
                 }
-
                 resolve(userData);
             } else {
                 userData.errCode = 1;
@@ -63,6 +61,33 @@ let checkUserEmail = (userEmail) => {
     })
 }
 
+let getAllUsers = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let users = "";
+            if (userId === "ALL") {
+                users = await db.User.findAll({
+                    attributes: {
+                        exclude: ['password']
+                    }
+
+                })
+            }
+            if(userId && userId !=='ALL') {
+                users = await db.User.findOne({
+                    where: { id: userId },
+                    attributes: {
+                        exclude: ['password']
+                    }
+                })
+            }
+            resolve(users);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
 module.exports = {
     handleUserLogin: handleUserLogin,
+    getAllUsers: getAllUsers
 }
