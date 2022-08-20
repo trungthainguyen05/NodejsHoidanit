@@ -111,24 +111,23 @@ let createNewUser = (data) => {
                     errCode: 1,
                     message: 'Your email already exist. Please try with annother email!'
                 });
+            } else {
+                let hashPasswordFromBcrypt = await hashUserPassword(data.password);
+                await db.User.create({
+                    email: data.email,
+                    password: hashPasswordFromBcrypt,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    address: data.address,
+                    gender: data.gender === '1' ? true : false,
+                    roleId: data.roleId,
+                    phonenumber: data.phonenumber,
+                })
+                resolve({
+                    errCode: 0,
+                    message: 'OK'
+                });
             }
-
-            let hashPasswordFromBcrypt = await hashUserPassword(data.password);
-            await db.User.create({
-                email: data.email,
-                password: hashPasswordFromBcrypt,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                address: data.address,
-                gender: data.gender === '1' ? true : false,
-                roleId: data.roleId,
-                phonenumber: data.phonenumber,
-            })
-            resolve({
-                errCode: 0,
-                message: 'OK'
-            });
-
         } catch (e) {
             reject(e);
         }
@@ -148,16 +147,15 @@ let deleteUser = (userId) => {
                     errCode: 2,
                     message: 'The userId is not exist'
                 });
+            } else {
+                await db.User.destroy({
+                    where: { id: userId }
+                })
+                resolve({
+                    errCode: 0,
+                    message: 'OK'
+                })
             }
-
-            await db.User.destroy({
-                where: { id: userId }
-            })
-            resolve({
-                errCode: 0,
-                message: 'OK'
-            })
-
         } catch (e) {
             reject(e);
         }
