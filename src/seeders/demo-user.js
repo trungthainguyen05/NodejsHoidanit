@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    up: async(queryInterface, Sequelize) => {
+    up: async (queryInterface, Sequelize) => {
         /**
          * Add seed commands here.
          *
@@ -13,10 +13,10 @@ module.exports = {
          */
 
         return queryInterface.bulkInsert('Users', [{
-            email: 'example@example.com',
+            email: 'trung@gmail.com',
             password: '123456',
-            firstName: 'John',
-            lastName: 'Doe',
+            firstName: 'Trung',
+            lastName: 'Nguyen',
             address: 'Dong Nai',
             gender: true, //True: male, False: female
             roleId: 'R1',
@@ -27,7 +27,7 @@ module.exports = {
         }]);
     },
 
-    down: async(queryInterface, Sequelize) => {
+    down: async (queryInterface, Sequelize) => {
         /**
          * Add commands to revert seed here.
          *

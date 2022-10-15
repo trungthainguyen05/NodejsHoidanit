@@ -1,5 +1,6 @@
 import db from '../models/index';
 import bcrypt from 'bcryptjs';
+import allcode from '../models/allcode';
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -203,10 +204,35 @@ let editUser = (userData) => {
     })
 }
 
+let getAllCodeService = (typeInput) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let res = {};
+            if (!typeInput) {
+                res.errCode = 1;
+                res.errMessage = "Missing require parameter!";
+                resolve(res);
+            } else {
+                let allCode = await db.Allcode.findAll({
+                    where: { type: typeInput }
+                });
+                res.errCode = 0;
+                res.data = allCode;
+                resolve(res);
+            }
+
+
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUsers: getAllUsers,
     createNewUser: createNewUser,
     deleteUser: deleteUser,
     editUser: editUser,
+    getAllCodeService: getAllCodeService,
 }
