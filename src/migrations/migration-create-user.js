@@ -35,10 +35,10 @@ module.exports = {
                 type: Sequelize.STRING
             },
             gender: {
-                type: Sequelize.BOOLEAN
+                type: Sequelize.STRING
             },
             roleId: {
-                type: Sequelize.INTEGER
+                type: Sequelize.STRING
             },
             phonenumber: {
                 type: Sequelize.STRING

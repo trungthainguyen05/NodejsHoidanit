@@ -47,9 +47,17 @@ let handleGetAllUsers = async (req, res) => {
 }
 
 let handleCreateNewUser = async (req, res) => {
-    let message = await userService.createNewUser(req.body);
-    console.log(message);
-    return res.status(200).json(message);
+    try {
+        let message = await userService.createNewUser(req.body);
+        console.log(message);
+        return res.status(200).json(message);
+    } catch (e) {
+        console.log('Create new user error: ', e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
 }
 
 let handleDeleteUser = async (req, res) => {
