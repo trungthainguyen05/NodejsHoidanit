@@ -35,7 +35,6 @@ let handleUserLogin = (email, password) => {
                     if (check) {
                         userData.errCode = 0;
                         userData.errMessage = "OK";
-                        // console.log(user);
                         delete user.password;
                         userData.user = user;
                     } else {
@@ -113,7 +112,6 @@ let createNewUser = (data) => {
                     message: 'Your email already exist. Please try with annother email!'
                 });
             }
-
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
             await db.User.create({
                 email: data.email,
@@ -124,8 +122,8 @@ let createNewUser = (data) => {
                 phonenumber: data.phonenumber,
                 gender: data.gender,
                 roleId: data.roleId,
-                positionId: data.positionId
-
+                positionId: data.positionId,
+                image: data.avatar
             })
             resolve({
                 errCode: 0,
@@ -144,7 +142,6 @@ let deleteUser = (userId) => {
             let users = await db.User.findOne({
                 where: { id: userId }
             })
-            // console.log(users);
 
             if (!users) {
                 resolve({
@@ -170,8 +167,6 @@ let deleteUser = (userId) => {
 let editUser = (userData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // 
-            console.log(userData)
             if (!userData.id || !userData.roleId || !userData.positionId || !userData.gender) {
                 resolve({
                     errCode: 2,
@@ -191,7 +186,7 @@ let editUser = (userData) => {
                 user.roleId = userData.roleId;
                 user.positionId = userData.positionId;
                 user.gender = userData.gender;
-
+                user.image = userData.avatar;
                 await user.save();
                 resolve({
                     errCode: 0,
