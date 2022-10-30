@@ -170,22 +170,27 @@ let deleteUser = (userId) => {
 let editUser = (userData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let userId = userData.id;
-            if (!userId) {
+            // 
+            console.log(userData)
+            if (!userData.id || !userData.roleId || !userData.positionId || !userData.gender) {
                 resolve({
-                    errCode: 1,
+                    errCode: 2,
                     message: "missing required parameter Id"
                 })
             }
 
             let user = await db.User.findOne({
-                where: { id: userId },
+                where: { id: userData.id },
                 raw: false
             })
             if (user) {
                 user.firstName = userData.firstName;
                 user.lastName = userData.lastName;
                 user.address = userData.address;
+                user.phonenumber = userData.phonenumber;
+                user.roleId = userData.roleId;
+                user.positionId = userData.positionId;
+                user.gender = userData.gender;
 
                 await user.save();
                 resolve({
