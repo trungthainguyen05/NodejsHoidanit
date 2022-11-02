@@ -29,6 +29,7 @@ let getTopDoctorHomeService = (limitInput) => {
     })
 }
 
-module.export = {
+module.exports = {
     getTopDoctorHomeService: getTopDoctorHomeService,
+    
 }
