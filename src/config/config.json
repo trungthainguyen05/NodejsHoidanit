@@ -7,10 +7,12 @@
         "dialect": "mysql",
         "logging": false,
         "timezone": "+07:00",
-        "query":{
+        "query": {
             "raw": true
+        },
+        "define": {
+            "freezeTableName": true
         }
-        
     },
     "test": {
         "username": "root",
