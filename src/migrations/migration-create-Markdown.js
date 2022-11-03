@@ -15,24 +15,25 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            doctorId: {
-                type: Sequelize.STRING
-            },
-            clinicId: {
-                type: Sequelize.STRING
-            },
-            specialtyId: {
-                type: Sequelize.STRING
-            },
             contentHTML: {
-                type: Sequelize.STRING
+                type: Sequelize.TEXT('long')
             },
             contentMarkdown: {
-                type: Sequelize.STRING
+                type: Sequelize.TEXT('long')
             },
             description: {
-                type: Sequelize.STRING
+                type: Sequelize.TEXT('long')
             },
+            doctorId: {
+                type: Sequelize.INTEGER
+            },
+            specialtyId: {
+                type: Sequelize.INTEGER
+            },
+            clinicId: {
+                type: Sequelize.INTEGER
+            },
+
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
