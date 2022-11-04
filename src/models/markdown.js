@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         clinicId: DataTypes.INTEGER,
     }, {
         sequelize,
-        modelName: 'Markdown',
+        modelName: 'Markdowns',
     });
     return Markdown;
 };

@@ -3,7 +3,7 @@ import db from '../models/index';
 let getTopDoctorHomeService = (limitInput) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let users = await db.User.findAll({
+            let users = await db.Users.findAll({
                 limit: limitInput,
                 where: { roleId: 'R2' },
                 order: [['createdAt', 'DESC']],
@@ -11,8 +11,8 @@ let getTopDoctorHomeService = (limitInput) => {
                     exclude: ['password']
                 },
                 include: [
-                    { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
-                    { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi'] }
+                    { model: db.Allcodes, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+                    { model: db.Allcodes, as: 'genderData', attributes: ['valueEn', 'valueVi'] }
                 ],
                 raw: true,
                 nest: true
@@ -32,17 +32,12 @@ let getTopDoctorHomeService = (limitInput) => {
 let getAllDoctors = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let doctors = await db.User.findAll({
+            let doctors = await db.Users.findAll({
                 where: { roleId: 'R2' },
                 attributes: {
                     exclude: ['password']
                 },
-                // include: [
-                //     { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
-                //     { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi'] }
-                // ],
                 raw: true,
-                // nest: true,
             })
 
             resolve({
@@ -68,7 +63,7 @@ let saveDetailInforDoctor = (inputData) => {
                 })
             }
             else {
-                await db.Markdown.create({
+                await db.Markdowns.create({
                     contentHTML: inputData.contentHTML,
                     contentMarkdown: inputData.contentMarkdown,
                     description: inputData.description,
