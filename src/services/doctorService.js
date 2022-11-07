@@ -94,7 +94,7 @@ let getDetailDoctorByIdService = (inputId) => {
                     where: {
                         id: inputId
                     }, attributes: {
-                        exclude: ['password', 'image']
+                        exclude: ['password']
                     },
                     include: [
                         {
@@ -103,9 +103,16 @@ let getDetailDoctorByIdService = (inputId) => {
                         },
                         { model: db.Allcodes, as: 'positionData', attributes: ['valueEn', 'valueVi'] }
                     ],
-                    raw: true,
+                    raw: false,
                     nest: true
                 })
+
+                if (doctorDetail && doctorDetail.image) {
+                    doctorDetail.image = new Buffer(doctorDetail.image, 'base64').toString('binary');
+                }
+
+                if (!doctorDetail) data = {}
+
                 resolve({
                     errCode: 0,
                     data: doctorDetail
