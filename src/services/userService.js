@@ -23,7 +23,7 @@ let handleUserLogin = (email, password) => {
             let isExist = await checkUserEmail(email);
             if (isExist) {
                 //check password
-                let user = await db.User.findOne({
+                let user = await db.Users.findOne({
                     attributes: ['email', 'roleId', 'password', 'firstName', 'lastName'],
                     where: { email: email },
                     raw: true
@@ -60,7 +60,7 @@ let handleUserLogin = (email, password) => {
 let checkUserEmail = (userEmail) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let user = await db.User.findOne({
+            let user = await db.Users.findOne({
                 where: { email: userEmail }
             })
             if (user) {
@@ -79,7 +79,7 @@ let getAllUsers = (userId) => {
         try {
             let users = "";
             if (userId === "ALL") {
-                users = await db.User.findAll({
+                users = await db.Users.findAll({
                     attributes: {
                         exclude: ['password']
                     }
@@ -87,7 +87,7 @@ let getAllUsers = (userId) => {
                 })
             }
             if (userId && userId !== 'ALL') {
-                users = await db.User.findOne({
+                users = await db.Users.findOne({
                     where: { id: userId },
                     attributes: {
                         exclude: ['password']
@@ -113,7 +113,7 @@ let createNewUser = (data) => {
                 });
             }
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
-            await db.User.create({
+            await db.Users.create({
                 email: data.email,
                 password: hashPasswordFromBcrypt,
                 firstName: data.firstName,
@@ -139,7 +139,7 @@ let createNewUser = (data) => {
 let deleteUser = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let users = await db.User.findOne({
+            let users = await db.Users.findOne({
                 where: { id: userId }
             })
 
@@ -150,7 +150,7 @@ let deleteUser = (userId) => {
                 });
             }
 
-            await db.User.destroy({
+            await db.Users.destroy({
                 where: { id: userId }
             })
             resolve({
@@ -174,7 +174,7 @@ let editUser = (userData) => {
                 })
             }
 
-            let user = await db.User.findOne({
+            let user = await db.Users.findOne({
                 where: { id: userData.id },
                 raw: false
             })
@@ -215,7 +215,7 @@ let getAllCodeService = (typeInput) => {
                 res.errMessage = "Missing require parameter!";
                 resolve(res);
             } else {
-                let allCode = await db.Allcode.findAll({
+                let allCode = await db.Allcodes.findAll({
                     where: { type: typeInput }
                 });
                 res.errCode = 0;

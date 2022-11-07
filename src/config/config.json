@@ -7,10 +7,9 @@
         "dialect": "mysql",
         "logging": false,
         "timezone": "+07:00",
-        "query":{
+        "query": {
             "raw": true
         }
-        
     },
     "test": {
         "username": "root",

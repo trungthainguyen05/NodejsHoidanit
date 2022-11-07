@@ -6,7 +6,7 @@ module.exports = {
                 'Users',
                 'image',
                 {
-                    type: Sequelize.BLOB
+                    type: Sequelize.BLOB('long')
                 }
             ),
             // queryInterface.addColumn(
@@ -33,17 +33,19 @@ module.exports = {
 //     up: (queryInterface, Sequelize) => {
 //         return Promise.all([
 //             queryInterface.changeColumn('Users', 'image', {
-//                 type: Sequelize.BLOB,
+//                 type: Sequelize.BLOB('long'),
 //                 allowNull: true,
-//             }
+//             })
 //         ])
 //     },
 
 //     down: (queryInterface, Sequelize) => {
 //         return Promise.all([
 //             queryInterface.changeColumn('Users', 'image', {
-//                 type: Sequelize.STRING,
+//                 type: Sequelize.BLOB,
 //                 allowNull: true,
+//             }, {
+//                 transaction,
 //             })
 //         ])
 //     }
