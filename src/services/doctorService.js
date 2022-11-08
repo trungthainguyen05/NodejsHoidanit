@@ -54,7 +54,6 @@ let getAllDoctors = () => {
 let saveDetailInforDoctor = (inputData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('tr check inputdata from doctorService: ', inputData);
             if (!inputData.contentMarkdown || !inputData.contentHTML
                 || !inputData.doctorId || !inputData.description
                 || !inputData.action) {
