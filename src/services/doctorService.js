@@ -54,21 +54,41 @@ let getAllDoctors = () => {
 let saveDetailInforDoctor = (inputData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // console.log('tr check inputdata from doctorService: ', inputData);
+            console.log('tr check inputdata from doctorService: ', inputData);
             if (!inputData.contentMarkdown || !inputData.contentHTML
-                || !inputData.doctorId || !inputData.description) {
+                || !inputData.doctorId || !inputData.description
+                || !inputData.action) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameter',
                 })
             }
+
             else {
-                await db.Markdowns.create({
-                    contentHTML: inputData.contentHTML,
-                    contentMarkdown: inputData.contentMarkdown,
-                    description: inputData.description,
-                    doctorId: inputData.doctorId,
-                })
+                if (inputData.action === "CREATE") {
+                    await db.Markdowns.create({
+                        contentHTML: inputData.contentHTML,
+                        contentMarkdown: inputData.contentMarkdown,
+                        description: inputData.description,
+                        doctorId: inputData.doctorId,
+                    })
+                } else if (inputData.action === "EDIT") {
+                    let doctorMarkdown = await db.Markdowns.findOne({
+                        where: {
+                            doctorId: inputData.doctorId
+                        },
+                        raw: false,
+                    })
+                    if (doctorMarkdown) {
+                        doctorMarkdown.contentHTML = inputData.contentHTML;
+                        doctorMarkdown.contentMarkdown = inputData.contentMarkdown;
+                        doctorMarkdown.description = inputData.description;
+                        doctorMarkdown.updateAt = new Date();
+
+                        await doctorMarkdown.save();
+                    }
+                }
+
                 resolve({
                     errCode: 0,
                     errMessage: "save infor doctor succeed!",
