@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('Schedule', {
+        await queryInterface.createTable('Schedules', {
             // currentNumber: DataTypes.INTEGER,
             // maxNumber: DataTypes.INTEGER,
             // date: DataTypes.DATE,
@@ -21,7 +21,7 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             date: {
-                type: Sequelize.DATE
+                type: Sequelize.STRING
             },
             timeType: {
                 type: Sequelize.STRING
@@ -41,6 +41,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Schedule');
+        await queryInterface.dropTable('Schedules');
     }
 };
