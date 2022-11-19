@@ -59,7 +59,7 @@ let getAllDoctors = () => {
 let saveDetailInforDoctor = (inputData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // console.log('tr check inputData: ', inputData);
+            console.log('tr check inputData: ', inputData);
             if (!inputData.contentMarkdown || !inputData.contentHTML
                 || !inputData.doctorId || !inputData.description
                 || !inputData.action || !inputData.selectedPrice
@@ -167,6 +167,17 @@ let getDetailDoctorByIdService = (inputId) => {
                         {
                             model: db.Markdowns,
                             attributes: ['description', 'contentHTML', 'contentMarkdown']
+                        },
+                        {
+                            model: db.Doctor_infors,
+                            attributes: {
+                                exclude: ['id', 'doctorId']
+                            },
+                            include: [
+                                { model: db.Allcodes, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcodes, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcodes, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] }
+                            ]
                         },
                         { model: db.Allcodes, as: 'positionData', attributes: ['valueEn', 'valueVi'] }
                     ],
