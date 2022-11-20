@@ -321,6 +321,61 @@ let getExtraInforDoctorByIdService = (idInput) => {
     })
 }
 
+let getProfileDoctorByIdService = (idInput) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!idInput) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameter'
+                })
+            } else {
+                let data = await db.Users.findOne({
+                    where: {
+                        id: idInput
+                    },
+                    attributes: {
+                        exclude: ['password']
+                    },
+                    include: [
+                        {
+                            model: db.Markdowns,
+                            attributes: ['description', 'contentHTML', 'contentMarkdown']
+                        },
+                        { model: db.Allcodes, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+                        {
+                            model: db.Doctor_infors,
+                            attributes: {
+                                exclude: ['id', 'doctorId']
+                            },
+                            include: [
+                                { model: db.Allcodes, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcodes, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcodes, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] }
+                            ]
+                        },
+
+                    ],
+                    raw: false,
+                    nest: true
+                })
+
+                if (data && data.image) {
+                    data.image = new Buffer(data.image, 'base64').toString('binary');
+                }
+
+                if (!data) data = {}
+
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
 
 module.exports = {
     getTopDoctorHomeService: getTopDoctorHomeService,
@@ -329,6 +384,7 @@ module.exports = {
     getDetailDoctorByIdService: getDetailDoctorByIdService,
     bulkCreateScheduleService: bulkCreateScheduleService,
     getScheduleByDateService: getScheduleByDateService,
-    getExtraInforDoctorByIdService: getExtraInforDoctorByIdService
+    getExtraInforDoctorByIdService: getExtraInforDoctorByIdService,
+    getProfileDoctorByIdService: getProfileDoctorByIdService,
 
 }
