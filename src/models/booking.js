@@ -18,12 +18,12 @@ module.exports = (sequelize, DataTypes) => {
         statusId: DataTypes.STRING,
         doctorId: DataTypes.STRING,
         patientId: DataTypes.STRING,
-        date: DataTypes.DATE,
+        date: DataTypes.STRING,
         timeType: DataTypes.STRING,
 
     }, {
         sequelize,
-        modelName: 'Booking',
+        modelName: 'Bookings',
     });
     return Booking;
 };
