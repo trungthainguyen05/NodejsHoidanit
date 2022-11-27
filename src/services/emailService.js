@@ -20,7 +20,15 @@ let sendSimpleEmailService = async (dataSend) => {
         from: '"Trung 👻" <fakeEmail@gmail.com>', // sender address
         to: dataSend.receiverEmail, // list of receivers
         subject: "Thông tin đặt lịch khám bệnh", // Subject line
-        html: `
+        html: await getBodyHTMLEmail(dataSend),
+    });
+}
+
+let getBodyHTMLEmail = (dataSend) => {
+    let result = '';
+    if (dataSend.language === 'vi') {
+        result =
+            `
         <h3>Xin chào ${dataSend.patientName}!</h3>
         <p>Bạn nhận được email này vì đã đặt lịch khám bệnh online trên website designed by Trung</p>
         <p>Thông tin đặt lịch khám bệnh: </p>
@@ -34,8 +42,29 @@ let sendSimpleEmailService = async (dataSend) => {
         </div>
 
         <div>Xin chân thành cảm ơn</div>
-        `, // html body
-    });
+        `
+            ;
+    }
+    if (dataSend.language === 'en') {
+        result =
+            `
+    <h3>Hi ${dataSend.patientName}!</h3>
+    <p>You receive this email because you make a booking for inspection your health on the website designed by Trung </p>
+    <p>The booking information: </p>
+    <div><b>Time: ${dataSend.time}</b></div>
+    <div><b>Doctor: ${dataSend.doctorName}</b></div>
+
+    <p>If you these information is your will, please click on the below link to confirm and complete the booking process</p>
+    <div>
+    <a href="${dataSend.redirectLink} target = "_blank" >Click here</a>
+    </div>
+
+    <div>Thank for your trust on my service</div>
+    `
+            ;
+    }
+
+    return result;
 }
 
 
