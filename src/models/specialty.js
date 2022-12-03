@@ -14,14 +14,15 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
     Specialty.init({
-
-        description: DataTypes.STRING,
-        image: DataTypes.STRING,
+        image: DataTypes.TEXT,
         name: DataTypes.STRING,
+        descriptionHTML: DataTypes.TEXT,
+        descriptionMarkdown: DataTypes.TEXT,
+
 
     }, {
         sequelize,
-        modelName: 'Specialty',
+        modelName: 'Specialties',
     });
     return Specialty;
 };

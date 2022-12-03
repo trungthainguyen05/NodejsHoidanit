@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 let buildUrlEmail = (doctorId, token) => {
 
-    let result = `${process.env.URL_REACT}/verify-booking?token=${token}&doctorId=${doctorId}`;
+    let result = `${process.env.URL_REACT}verify-booking?token=${token}&doctorId=${doctorId}`;
 
     return result;
 }
@@ -13,7 +13,6 @@ let buildUrlEmail = (doctorId, token) => {
 let postBookAppointmentService = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('tr check data: ', data)
             if (!data.email || !data.doctorId
                 || !data.timeType || !data.date
                 || !data.fullName || !data.timeString
