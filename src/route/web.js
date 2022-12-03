@@ -40,6 +40,8 @@ let initWebRoutes = (app) => {
 
     router.post('/api/create-specialty', specialtyController.createSpecialty);
 
+    router.get('/api/get-specialty', specialtyController.getAllSpecialty);
+
     return app.use("/", router);
 }
 module.exports = initWebRoutes
