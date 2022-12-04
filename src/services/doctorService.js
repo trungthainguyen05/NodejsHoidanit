@@ -56,24 +56,40 @@ let getAllDoctors = () => {
     })
 }
 
+let checkRequiredFields = (inputData) => {
+    let arrFields = ['contentMarkdown', 'contentHTML', 'doctorId', 'description', 'action',
+        'selectedPrice', 'selectedPayment', 'selectedProvince', 'nameClinic',
+        'addressClinic', 'note', 'specialtyId'
+    ];
+
+    let isValid = false;
+    let element = '';
+    for (let i = 0; i < arrFields.length; i++) {
+        if (!inputData[arrFields[i]]) {
+            isValid = true;
+            element = arrFields[i];
+            break;
+        }
+    }
+
+    return {
+        isValid: isValid,
+        element: element,
+    }
+}
+
 let saveDetailInforDoctor = (inputData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('tr check inputData: ', inputData);
-            if (!inputData.contentMarkdown || !inputData.contentHTML
-                || !inputData.doctorId || !inputData.description
-                || !inputData.action || !inputData.selectedPrice
-                || !inputData.selectedPayment || !inputData.selectedProvince
-                || !inputData.nameClinic || !inputData.addressClinic
-                || !inputData.note
-            ) {
+
+            let checkObj = checkRequiredFields(inputData);
+            console.log('tr check valid: ', checkObj);
+            if (checkObj.isValid = false) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameter',
+                    errMessage: `Missing required parameter: ${checkObj.element}`,
                 })
-            }
-
-            else {
+            } else {
                 //update & insert to Markdown
                 if (inputData.action === "CREATE") {
                     await db.Markdowns.create({
@@ -107,11 +123,6 @@ let saveDetailInforDoctor = (inputData) => {
                     raw: false
                 })
 
-                // !inputData.selectedPrice
-                // || !inputData.selectedPayment || !inputData.selectedProvince
-                // || !inputData.nameClinic || !inputData.addressClinic
-                // || !inputData.note
-
                 if (doctorInfor) {
                     //update
                     doctorInfor.doctorId = inputData.doctorId;
@@ -121,6 +132,8 @@ let saveDetailInforDoctor = (inputData) => {
                     doctorInfor.addressClinic = inputData.addressClinic;
                     doctorInfor.nameClinic = inputData.nameClinic;
                     doctorInfor.note = inputData.note;
+                    doctorInfor.specialtyId = inputData.specialtyId;
+                    doctorInfor.clinicId = inputData.clinicId;
                     await doctorInfor.save();
                 }
                 else {
@@ -133,6 +146,8 @@ let saveDetailInforDoctor = (inputData) => {
                         addressClinic: inputData.addressClinic,
                         nameClinic: inputData.nameClinic,
                         note: inputData.note,
+                        specialtyId: inputData.specialtyId,
+                        clinicId: inputData.clinicId,
                     })
                 }
 
