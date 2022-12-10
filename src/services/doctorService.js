@@ -83,7 +83,6 @@ let saveDetailInforDoctor = (inputData) => {
         try {
 
             let checkObj = checkRequiredFields(inputData);
-            console.log('tr check valid: ', checkObj);
             if (checkObj.isValid = false) {
                 resolve({
                     errCode: 1,

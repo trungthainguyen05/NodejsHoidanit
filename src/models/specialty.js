@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
         descriptionHTML: DataTypes.TEXT,
         descriptionMarkdown: DataTypes.TEXT,
 
-
     }, {
         sequelize,
         modelName: 'Specialties',
