@@ -15,8 +15,9 @@ let postBookAppointmentService = (data) => {
         try {
             if (!data.email || !data.doctorId
                 || !data.timeType || !data.date
-                || !data.fullName || !data.timeString
-                || !data.language
+                || !data.timeString || !data.language
+                || !data.fullName || !data.seletedGender
+                || !data.address || !data.phoneNumber
 
             ) {
                 resolve({
@@ -47,7 +48,11 @@ let postBookAppointmentService = (data) => {
                     },
                     defaults: {
                         email: data.email,
-                        roleId: "R3"
+                        roleId: "R3",
+                        gender: data.seletedGender,
+                        address: data.address,
+                        firstName: data.fullName,
+                        phonenumber: data.phoneNumber,
                     }
                 });
 
@@ -91,7 +96,6 @@ let postBookAppointmentService = (data) => {
                     //         timeType: data.timeType,
                     //     }
                     // })
-
                 }
 
                 resolve({
@@ -99,7 +103,6 @@ let postBookAppointmentService = (data) => {
                     errMessage: 'Save infor patient succeed',
                 })
             }
-
         } catch (e) {
             reject(e);
         }
